@@ -1,12 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+* element that contains the map. */
+#map {
+height: 100%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+height: 100%;
+margin: 0;
+padding: 0;
+}
+        </style>
+
+    <link rel="stylesheet" href="googleMap.css">
+    </link>
+     <!--<script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>--> <!-- Firebase 2.3.2 --> 
+  
+    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+
+
+    <script src="firebasemap.js"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANf282TEzyB8gxc8xAi-wsvEMWfdk6ne0&libraries=visualization&callback=initMap">
+        </script>
+
+        
 </head>
+
 <body>
-    
+    <div id="map"></div>
+
 </body>
+
 </html>
