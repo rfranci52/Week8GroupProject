@@ -18,10 +18,12 @@ function initMap() {
         console.log(`${lat} and ${lng}`)
     });
 
+    // creates autocomplete
     autocomplete = new google.maps.places.Autocomplete(document.getElementById('input'));
     autocomplete.bindTo('bounds', map);
     autocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
 
+    // handle autcomplete to get coords
     autocomplete.addListener('place_changed', function() {
         place = autocomplete.getPlace();
         map.setCenter(place.geometry.location);
