@@ -1,6 +1,8 @@
 var map;
 var lat;
 var lng;
+var place;
+var autocomplete;
 
 function initMap() {
     // create map
@@ -16,5 +18,15 @@ function initMap() {
         console.log(`${lat} and ${lng}`)
     });
 
-    service = new google.maps.places.Autocomplete(document.getElementById('input'));
+    autocomplete = new google.maps.places.Autocomplete(document.getElementById('input'));
+    autocomplete.bindTo('bounds', map);
+    autocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
+
+    autocomplete.addListener('place_changed', function() {
+        place = autocomplete.getPlace();
+        map.setCenter(place.geometry.location);
+        lat = map.getCenter().lat();
+        lng = map.getCenter().lng();
+        console.log(`${lat} and ${lng}`)
+    });
 }
