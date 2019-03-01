@@ -15,4 +15,6 @@ function initMap() {
         lng = map.getCenter().lng();
         console.log(`${lat} and ${lng}`)
     });
+
+    service = new google.maps.places.Autocomplete(document.getElementById('input'));
 }
