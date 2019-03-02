@@ -60,8 +60,12 @@ function placeMarker(position) {
         draggable: false,
     });
 
+    var infowindow = new google.maps.InfoWindow({
+        content: "A place!"
+      });
+
     marker.addListener('click', function() {
-        console.log("clicked");
+        infowindow.open(map, marker);
     });
 
     return marker;
