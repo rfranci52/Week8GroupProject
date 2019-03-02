@@ -7,11 +7,9 @@ var autocomplete;
 function initMap() {
     // create map
     map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 2.8, lng: -187.3 },
-        zoom: 3
+        center: {lat: 40.730610, lng: -73.935242},
+        zoom: 13
     });
-
-    placeMarker({ lat: -34.397, lng: 150.644 }, map);
 
     // detect map movement to get new coords
     map.addListener('dragend', function () {
@@ -34,29 +32,17 @@ function initMap() {
         console.log(`${lat} and ${lng}`)
     });
 
-    // Loop through the results array and place a marker for each
-    // set of coordinates.
-    window.eqfeed_callback = function (results) {
-        for (var i = 0; i < results.features.length; i++) {
-            var coords = results.features[i].geometry.coordinates;
-            var latLng = new google.maps.LatLng(coords[1], coords[0]);
-            placeMarker(latLng);
-        }
-    }
-
-    var script = document.createElement('script');
-    // This example uses a local copy of the GeoJSON stored at
-    // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
-    script.src = 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js';
-    document.getElementsByTagName('head')[0].appendChild(script);
-
-    // get nyc open data
+    // call to nyc open data to get list of flu vaccine locations
     var url = "https://data.cityofnewyork.us/resource/inaf-e6a5.json";
     $.ajax({
         url: url,
         method: "GET"
-    }).then(function (result) {
-            console.log(result);
+    }).then(function (results) {
+            for (var i = 0; i < results.length; i++) {
+                    var coords = results[i].location.coordinates;
+                    var latLng = new google.maps.LatLng(coords[1], coords[0]);
+                    placeMarker(latLng);
+            }
     })
 }
 
