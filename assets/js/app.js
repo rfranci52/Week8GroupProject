@@ -11,6 +11,8 @@ function initMap() {
         zoom: 8
     });
 
+    placeMarker({lat: -34.397, lng: 150.644}, map);
+
     // detect map movement to get new coords
     map.addListener('dragend', function() {
         lat = map.getCenter().lat();
@@ -31,4 +33,21 @@ function initMap() {
         lng = map.getCenter().lng();
         console.log(`${lat} and ${lng}`)
     });
+
+     //add marker to map 
+     map.addListener('dblclick', function (e) {
+        placeMarker(e.latLng);        
+    });
+
+    //place marker on map
+    function placeMarker(position) {
+        var marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            draggable: false
+        });
+    
+    }
+
+   
 }
