@@ -1,4 +1,3 @@
-
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyCAKCN7ddltoY8oeKcqsWH47oKxKM-Ck1w",
@@ -11,12 +10,13 @@ var config = {
 firebase.initializeApp(config);
 
 
-//=======marker tracking with GeoFirebase=========
 //Create a node at firebase location to add locations as child keys
 var locationsRef = firebase.database().ref("locations");
 
-// Create a new GeoFire key under users Firebase location
+
+// Create a new GeoFire key under user's Firebase location
 var geoFire = new GeoFire(locationsRef.push());
+
 
 // Note: This example requires that you consent to location sharing when
 // prompted by your browser. If you see the error "The Geolocation service
@@ -36,8 +36,12 @@ var data = {
     timestamp: null,
     lat: null,
     lng: null,
-  
+    marker: {
+        markerLat: null,
+        marketLng: null
+    }
 };
+
 
 function makeInfoBox(controlDiv, map) {
     // Set CSS for the control border.
@@ -80,7 +84,7 @@ function initAuthentication(onAuthSuccess) {
 
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 40.730610, lng: -73.935242 },
+        // center: { lat: 40.730610, lng: -73.935242 },
         zoom: 10,
         mapTypeId: 'satellite',
         styles: [{
@@ -95,9 +99,17 @@ function initMap() {
         streetViewControl: false,
     });
 
-    //add marker to map 
-    map.addListener('click', function (e) {
+    //add marker to map and add dblclick to firebase
+    map.addListener('dblclick', function (e) {
         placeMarker(e.latLng, map);
+        if (map.addListener(event) === "click"){
+            return false,
+            console.log("click value not added to Firebase");
+        } else {
+            data.marker.markerLat = e.latLng.lat();
+            data.marker.markerLng = e.latLng.lng();
+            addToFirebase(data);
+        }
     });
 
     function placeMarker(position, map) {
@@ -105,21 +117,8 @@ function initMap() {
             position: position,
             map: map
         });
-        // map.panTo(position);
-       
-        
+        map.panTo(position);
     }
-
-    
-
-    //   // Listen for markers and add the location of the marker to firebase.
-    //   map.addListener('click', function (e) {
-    //     data.lat = e.latLng.lat();
-    //     data.lng = e.latLng.lng();
-    //     data.marker.
-    //     addToFirebase(data);
-    // });
-
 
     infoWindow = new google.maps.InfoWindow;
     // Try HTML5 geolocation.
@@ -139,16 +138,15 @@ function initMap() {
                         lng: data.User.l[1]
                     },
                     map: map,
-
-
                 });
+
                 bounds.extend(marker.getPosition());
-                marker.addListener('click', (function (data) {
-                    return function (e) {
-                        infoWindow.setContent(data.name + "<br>" + this.getPosition().toUrlValue(6) + "<br>" + data.message);
-                        infoWindow.open(map, this);
-                    }
-                }(data)));
+                // marker.addListener('click', (function (data) {
+                //     return function (e) {
+                //         infoWindow.setContent(data.name + "<br>" + this.getPosition().toUrlValue(6) + "<br>" + data.message);
+                //         infoWindow.open(map, this);
+                //     }
+                // }(data)));
                 map.fitBounds(bounds);
             });
 
@@ -172,8 +170,6 @@ function initMap() {
         });
     }
 
-
-
     // Create the DIV to hold the control and call the makeInfoBox() constructor
     // passing in this DIV.
     var infoBoxDiv = document.createElement('div');
@@ -187,7 +183,6 @@ function initMap() {
         addToFirebase(data);
     });
 }
-
 
 /**
  * Updates the last_message/ path with the current timestamp.
@@ -214,6 +209,25 @@ function getTimestamp(addClick) {
     });
 }
 
+function getMarker(placeMarker) {
+    var ref = firebase.database().ref('last_message/' + data.sender);
+    ref.onDisconnect().remove();  // Delete reference from firebase on disconnect.
+
+    ref.set(firebase.database.ServerValue.MARKER, function(err){
+        if(err){
+            console.log(err);
+
+        } else { // Write to last message was successful.
+            ref.once('value', function (snap) {
+                placeMarker(snap.val());  // Add click with same Marker.
+            }, function (err) {
+                console.warn(err);
+            });
+        }
+
+    })
+}
+
 /**
  * Adds a click to firebase.
  * @param {Object} data The data to be added to firebase.
@@ -223,13 +237,6 @@ function addToFirebase(data) {
     getTimestamp(function (timestamp) {
         // Add the new timestamp to the record data.
         data.timestamp = timestamp;
-        /* firebase 2.3.2
-        var ref = firebase.child('clicks').push(data, function(err) {
-        if (err) {  // Data was not written to firebase.
-            console.warn(err);
-        }
-        });
-        */
         firebase.database().ref('clicks').push(data, function (err) {
             if (err) {  // Data was not written to firebase.
                 console.warn(err);
