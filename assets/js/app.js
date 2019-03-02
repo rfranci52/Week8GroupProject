@@ -49,6 +49,15 @@ function initMap() {
     // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
     script.src = 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js';
     document.getElementsByTagName('head')[0].appendChild(script);
+
+    // get nyc open data
+    var url = "https://data.cityofnewyork.us/resource/inaf-e6a5.json";
+    $.ajax({
+        url: url,
+        method: "GET"
+    }).then(function (result) {
+            console.log(result);
+    })
 }
 
 
