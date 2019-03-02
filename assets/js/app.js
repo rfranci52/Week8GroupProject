@@ -33,14 +33,15 @@ function initMap() {
     });
 
     // call to nyc open data to get list of flu vaccine locations
-    var url = "https://data.cityofnewyork.us/resource/inaf-e6a5.json";
+    var url = "https://data.cityofnewyork.us/resource/8nqg-ia7v.json";
     $.ajax({
         url: url,
         method: "GET"
     }).then(function (results) {
             for (var i = 0; i < results.length; i++) {
-                    var coords = results[i].location.coordinates;
-                    var latLng = new google.maps.LatLng(coords[1], coords[0]);
+                    var lat = results[i].latitude;
+                    var lng = results[i].longitude;
+                    var latLng = new google.maps.LatLng(lat, lng);
                     placeMarker(latLng);
             }
     })
