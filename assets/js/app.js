@@ -3,6 +3,7 @@ var lat;
 var lng;
 var place;
 var autocomplete;
+var healthTheme = [];
 
 function initMap() {
     // create map
@@ -57,7 +58,7 @@ function initMap() {
         method: "GET"
     }).then(function (response) {
         var dataArr = response.dataset;
-        var healthTheme = [];
+        // var healthTheme = [];
         dataArr.forEach(function(element){
             if(element.theme == 'Health'){
                 healthTheme.push(element)
