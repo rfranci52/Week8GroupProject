@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Movie App Demo</title>
+
+    <!-- firebase reference -->
+    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css?family=Limelight" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+</head>
+
+<body>
+    <nav id="topNav" class="navbar navbar-expand-lg navbar-dark bg-dark navbar-default">
+        <a class="navbar-brand" href="#">
+            <h2>google maps nasa app</h2>
+        </a>
+        <!-- <form id="searchForm">
+            <input type="text" id="movieInput">
+            <input id="searchMovie" type="submit" value="GO">
+        </form> -->
+    </nav>
+
+    <nav id="searchNav" class="navbar navbar-expand-lg navbar-dark  navbar-default">
+
+        <form id="searchForm">
+            <input type="text" id="movieInput">
+            <input id="searchButton" type="submit" value="GO">
+        </form>
+    </nav>
+    <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div id="searchDisplay">
+              <input id="input" type="text">
+              <div id="map"></div>
+            </div>
+          </div>            
+        </div>
+    </div>
+
+
+    <!-- js scripts here -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANf282TEzyB8gxc8xAi-wsvEMWfdk6ne0&libraries=places&callback=initMap"
+    async defer></script>
+
+</body>
+
+</html>
