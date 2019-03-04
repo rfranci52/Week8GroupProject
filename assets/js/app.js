@@ -66,7 +66,8 @@ function getOpenData() {
     var url = "https://data.cityofnewyork.us/data.json";
     $.ajax({
         url: url,
-        method: "GET"
+        method: "GET",
+        cache: true
     }).then(function (response) {
         var dataArr = response.dataset;
         dataArr.forEach(function (element) {
@@ -104,7 +105,8 @@ function selectAPI() {
         var url = "https://data.cityofnewyork.us/resource/" + apiChoice + ".json";
         $.ajax({
             url: url,
-            method: "GET"
+            method: "GET",
+            cache: true
         }).then(function (results) {
             for (var i = 0; i < results.length; i++) {
                             var lat = results[i].latitude;
