@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Movie App Demo</title>
+    <title>Mapping Health</title>
 
     <!-- firebase reference -->
     <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
@@ -20,36 +20,74 @@
 </head>
 
 <body>
-    <nav id="topNav" class="navbar navbar-expand-lg navbar-dark bg-dark navbar-default">
-        <a class="navbar-brand" href="#">
-            <h2>google maps nasa app</h2>
+
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+                <a class="navbar-brand" href="#">
+                    <h1>Mapping Health</h1>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <ul class="navbar-nav mr-auto">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
         </a>
-        <!-- <form id="searchForm">
-            <input type="text" id="movieInput">
-            <input id="searchMovie" type="submit" value="GO">
-        </form> -->
     </nav>
 
     <nav id="searchNav" class="navbar navbar-expand-lg navbar-dark  navbar-default">
 
-        <form id="searchForm">
-            <input type="text" id="movieInput">
-            <input id="searchButton" type="submit" value="GO">
-        </form>
     </nav>
-    <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div id="searchDisplay">
-              <input id="input" type="text">
-              <div id="map"></div>
+  
+        <div id="map"></div>
+      
+                <div class="container">
+                    <div class="row">
+                        <div class="col-9"></div>
+                        <div class="col-3">
+                                <div id="selectAPI"></div>
+
+                        </div>
+
+                    </div>
+
+        
+                <!-- <div class="row">
+                    <div class="col-3">
+                       
+                    </div>
+                    <div class="col-9">
+                        <div id="searchDisplay">
+                            <input id="input" type="text">
+
+                        </div>
+                    </div>
+                </div> -->
+                <footer>
+                        <nav id="searchNav" class="navbar navbar-expand-lg navbar-dark  navbar-default">
+
+
+                                <form id="searchForm">
+                                    <input type="text" id="movieInput">
+                                    <input id="searchButton" type="submit" value="GO">
+                                </form>
+                            </nav>
+                        2019
+                    </footer>
             </div>
-          </div>            
         </div>
     </div>
 
 
     <!-- js scripts here -->
+
     <script src="https://code.jquery.com/jquery-3.3.1.js"
         integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
@@ -59,8 +97,9 @@
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
     <script src="assets/js/app.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANf282TEzyB8gxc8xAi-wsvEMWfdk6ne0&libraries=places&callback=initMap"
-    async defer></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANf282TEzyB8gxc8xAi-wsvEMWfdk6ne0&libraries=places&callback=initMap"
+        async defer></script>
 
 </body>
 
