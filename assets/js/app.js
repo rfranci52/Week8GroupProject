@@ -12,7 +12,7 @@ var lat;
 var lng;
 var place;
 var autocomplete;
-var markers = {};
+var markers = [];
 var jsonID = [];
 
 var openData = {
@@ -92,15 +92,17 @@ function makeJSON() {
         str1.push(openData.identifier[i]);
         var res = str1[i].slice(40);
         // var res = str1[i].slice(40) + ".json";
+        markers.push(res);
+        markers[res] = [];
         jsonID.push(res);
         // var str2 = "https://data.cityofnewyork.us/resource/"
         // jsonURL.push(str2.concat(res));
     }
+    // console.log(markers);
     renderButtons();
 }
 
 function selectAPI(element) {
-    console.log(element);
     var apiChoice = element;
     var url = "https://data.cityofnewyork.us/resource/" + apiChoice + ".json";
     $.ajax({
@@ -121,7 +123,7 @@ function selectAPI(element) {
 function renderButtons() {
     $("#selectAPI").empty();
     for (var i = 0; i < openData.title.length; i++) {
-        var button = $("<input>");
+        var button = $("<button>");
         button.addClass("api");
         button.text(openData.title[i]);
 
@@ -168,16 +170,16 @@ function placeMarker(position, apiChoice) {
         infowindow.open(map, marker);
     });
 
-    markers[apiChoice].append(marker);
-    console.log(markers[apiChoice]);
+    markers[apiChoice].push(marker);
+    // console.log(markers[apiChoice]);
     return marker;
 }
 
 
 // remove markers from map
-function removeMarker() {
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
+function removeMarker(apiChoice) {
+    for (var i = 0; i < markers[apiChoice].length; i++) {
+        markers[apiChoice][i].setMap(null);
     }
     markers = [];
 }
@@ -189,12 +191,12 @@ function addCheckListener() {
         if ($(this).is(":checked")) {
             console.log("checked")
             markers[($(this).attr("data-name"))] = [];
-            console.log(markers);
             selectAPI($(this).attr("data-name"));
+            console.log(markers[$(this).attr("data-name")]);
         }
         if (!$(this).is(":checked")) {
             console.log("unchecked")
-            removeMarker();
+            removeMarker($(this).attr("data-name"));
         }
     });
 };
