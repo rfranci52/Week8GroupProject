@@ -23,7 +23,7 @@ h1{
 #selectAPI {
   position: relative;
   z-index: 1;
-  max-width: 20000px;
+  max-width: 300px;
   max-height: 700px;
   overflow: auto;
 }
