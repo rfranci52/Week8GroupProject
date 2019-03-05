@@ -12,7 +12,7 @@ var lat;
 var lng;
 var place;
 var autocomplete;
-var markers = [];
+var markers = {};
 var jsonID = [];
 
 var openData = {
@@ -112,7 +112,7 @@ function selectAPI(element) {
             var lat = results[i].latitude;
             var lng = results[i].longitude;
             var latLng = new google.maps.LatLng(lat, lng);
-            placeMarker(latLng);
+            placeMarker(latLng, apiChoice);
         }
     })
 }
@@ -136,6 +136,7 @@ function renderButtons() {
         button.text(openData.title[i]);
         $("#selectAPI").append(button, text, $("<br>"));
     }
+
     addCheckListener();
 }
 
@@ -156,7 +157,7 @@ function renderButtons() {
 // }
 
 // place marker on map
-function placeMarker(position) {
+function placeMarker(position, apiChoice) {
     var marker = new google.maps.Marker({
         position: position,
         map: map,
@@ -171,7 +172,8 @@ function placeMarker(position) {
         infowindow.open(map, marker);
     });
 
-    markers.push(marker);
+    markers[apiChoice].append(marker);
+    console.log(markers[apiChoice]);
     return marker;
 }
 
@@ -190,6 +192,8 @@ function addCheckListener() {
     $(".checks").on("click", function() {
         if ($(this).is(":checked")) {
             console.log("checked")
+            markers[($(this).attr("data-name"))] = [];
+            console.log(markers);
             selectAPI($(this).attr("data-name"));
         }
         if (!$(this).is(":checked")) {
