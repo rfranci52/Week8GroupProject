@@ -99,7 +99,6 @@ function makeJSON() {
     renderButtons();
 }
 
-<<<<<<< HEAD
 function selectAPI(element) {
     console.log(element);
     var apiChoice = element;
@@ -115,24 +114,6 @@ function selectAPI(element) {
             var latLng = new google.maps.LatLng(lat, lng);
             placeMarker(latLng, apiChoice);
         }
-=======
-function selectAPI() {
-    $("button input").on("click", function () {
-        var apiChoice = $(this).attr("data-name");
-        var url = "https://data.cityofnewyork.us/resource/" + apiChoice + ".json";
-        $.ajax({
-            url: url,
-            method: "GET",
-            cache: true
-        }).then(function (results) {
-            for (var i = 0; i < results.length; i++) {
-                            var lat = results[i].latitude;
-                            var lng = results[i].longitude;
-                            var latLng = new google.maps.LatLng(lat, lng);
-                            placeMarker(latLng);
-            }
-        })
->>>>>>> origin
     })
 }
 
@@ -142,20 +123,6 @@ function renderButtons() {
     for (var i = 0; i < openData.title.length; i++) {
         var button = $("<input>");
         button.addClass("api");
-<<<<<<< HEAD
-        button.attr({
-            "data-name": jsonID[i],
-            type: "checkbox",
-            title: openData.title[i],
-            text: openData.title[i],
-            class: "checks"
-        });
-        var text = $("<p>", {
-            text: openData.title[i]
-        });
-        button.text(openData.title[i]);
-        $("#selectAPI").append(button, text, $("<br>"));
-=======
         button.text(openData.title[i]);
 
         var input = $("<input>");
@@ -164,7 +131,6 @@ function renderButtons() {
         input.attr("data-name", jsonID[i]);
         button.prepend(input);
         $("#selectAPI").append(button);
->>>>>>> origin
     }
 
     addCheckListener();
