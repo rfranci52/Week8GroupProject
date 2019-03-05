@@ -130,6 +130,7 @@ function renderButtons() {
 
         var input = $("<input>");
         input.attr('type', 'checkbox');
+        input.attr("class", "checks");
         input.attr("data-name", jsonID[i]);
         button.prepend(input);
         $("#selectAPI").append(button);
