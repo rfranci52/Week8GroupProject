@@ -21,8 +21,16 @@ h1{
   }
 
 #selectAPI {
-  max-height: 700px;
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  max-height: 600px;
   overflow: auto;
+}
+
+#selectAPI .api {
+  display: flex;
+  justify-content: space-between;
 }
   
 button{
