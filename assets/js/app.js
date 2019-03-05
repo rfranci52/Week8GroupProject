@@ -45,7 +45,7 @@ function initMap() {
         lng = map.getCenter().lng();
         console.log(`${lat} and ${lng}`)
     });
-
+ 
     // creates autocomplete
     autocomplete = new google.maps.places.Autocomplete(document.getElementById('input'));
     autocomplete.bindTo('bounds', map);
