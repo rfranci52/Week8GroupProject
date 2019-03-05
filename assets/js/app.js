@@ -12,6 +12,7 @@ var lat;
 var lng;
 var place;
 var autocomplete;
+var markers = [];
 var jsonID = [];
 
 var openData = {
@@ -43,7 +44,6 @@ function initMap() {
     map.addListener('dragend', function () {
         lat = map.getCenter().lat();
         lng = map.getCenter().lng();
-        console.log(`${lat} and ${lng}`)
     });
 
     // creates autocomplete
@@ -57,13 +57,12 @@ function initMap() {
         map.setCenter(place.geometry.location);
         lat = map.getCenter().lat();
         lng = map.getCenter().lng();
-        console.log(`${lat} and ${lng}`)
     });
 }
 
 function getOpenData() {
     //JSON response for all APIs with "Health" theme
-    var url = "https://data.cityofnewyork.us/data.json";
+    var url = "https://data.cityofnewyork.us/data.json?category=Health";
     $.ajax({
         url: url,
         method: "GET",
@@ -84,6 +83,8 @@ function getOpenData() {
         makeJSON();
     })
 }
+
+
 //make usable JSON string from OpenData
 function makeJSON() {
     var str1 = [];
@@ -94,41 +95,51 @@ function makeJSON() {
         jsonID.push(res);
         // var str2 = "https://data.cityofnewyork.us/resource/"
         // jsonURL.push(str2.concat(res));
-        console.log(jsonID);
     }
     renderButtons();
 }
 
-function selectAPI() {
-    $("button").on("click", function () {
-        var apiChoice = $(this).attr("data-name");
-        var url = "https://data.cityofnewyork.us/resource/" + apiChoice + ".json";
-        $.ajax({
-            url: url,
-            method: "GET",
-            cache: true
-        }).then(function (results) {
-            for (var i = 0; i < results.length; i++) {
-                            var lat = results[i].latitude;
-                            var lng = results[i].longitude;
-                            var latLng = new google.maps.LatLng(lat, lng);
-                            placeMarker(latLng);
-            }
-        })
+function selectAPI(element) {
+    console.log(element);
+    if (element) {
+        var apiChoice = element;
+    }
+    else {
+        var apiChoice = "";
+    }
+    var url = "https://data.cityofnewyork.us/resource/" + apiChoice + ".json";
+    $.ajax({
+        url: url,
+        method: "GET",
+        cache: true
+    }).then(function (results) {
+        for (var i = 0; i < results.length; i++) {
+                        var lat = results[i].latitude;
+                        var lng = results[i].longitude;
+                        var latLng = new google.maps.LatLng(lat, lng);
+                        placeMarker(latLng);
+        }
     })
-  
-
 }
 
 //create buttons on front-end
 function renderButtons() {
     $("#selectAPI").empty();
     for (var i = 0; i < openData.title.length; i++) {
-        var button = $("<button>");
+        var button = $("<input>");
         button.addClass("api");
-        button.attr("data-name", jsonID[i]);
+        button.attr({
+            "data-name": jsonID[i],
+            type: "checkbox",
+            title: openData.title[i],
+            text: openData.title[i],
+            class: "checks"
+        });
+        var text = $("<p>", {
+            text: openData.title[i]
+        });
         button.text(openData.title[i]);
-        $("#selectAPI").append(button);
+        $("#selectAPI").append(button, text, $("<br>"));
     }
     selectAPI();
 
@@ -165,5 +176,29 @@ function placeMarker(position) {
     marker.addListener('click', function () {
         infowindow.open(map, marker);
     });
+
+    markers.push(marker);
     return marker;
 }
+
+
+// remove markers from map
+function removeMarker() {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+    }
+    markers = [];
+}
+
+
+// event listener for checkboxes
+$(document).ready(function () {
+    $(".checks").on("click", function() {
+        if ($(this).is(":checked")) {
+            selectAPI($(this).attr("data-name"));
+        }
+        if (!$(this).is(":checked")) {
+            removeMarker();
+        }
+    });
+});
