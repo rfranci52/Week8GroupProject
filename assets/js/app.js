@@ -98,7 +98,6 @@ function makeJSON() {
         // var str2 = "https://data.cityofnewyork.us/resource/"
         // jsonURL.push(str2.concat(res));
     }
-    // console.log(markers);
     renderButtons();
 }
 
@@ -171,7 +170,6 @@ function placeMarker(position, apiChoice) {
     });
 
     markers[apiChoice].push(marker);
-    // console.log(markers[apiChoice]);
     return marker;
 }
 
@@ -181,7 +179,7 @@ function removeMarker(apiChoice) {
     for (var i = 0; i < markers[apiChoice].length; i++) {
         markers[apiChoice][i].setMap(null);
     }
-    markers = [];
+    markers[apiChoice] = [];
 }
 
 
@@ -189,13 +187,10 @@ function removeMarker(apiChoice) {
 function addCheckListener() {
     $(".checks").on("click", function() {
         if ($(this).is(":checked")) {
-            console.log("checked")
             markers[($(this).attr("data-name"))] = [];
             selectAPI($(this).attr("data-name"));
-            console.log(markers[$(this).attr("data-name")]);
         }
         if (!$(this).is(":checked")) {
-            console.log("unchecked")
             removeMarker($(this).attr("data-name"));
         }
     });
