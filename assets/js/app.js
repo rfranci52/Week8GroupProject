@@ -14,6 +14,8 @@ var place;
 var autocomplete;
 var markers = [];
 var jsonID = [];
+var healthAPIs = [];
+var healthAPIsParsed = [];
 
 var openData = {
     items: [],
@@ -26,12 +28,6 @@ var openData = {
 }
 
 getOpenData();
-
-// getOpenData(openData, makeJSON);
-// makeJSON(renderButtons);
-// renderButtons(openData);
-// selectAPI(placeMarker);
-
 
 function initMap() {
     // create map
@@ -60,8 +56,30 @@ function initMap() {
     });
 }
 
+function fetchTimer() {
+    console.log('getting data')
+}
+
 function getOpenData() {
     //JSON response for all APIs with "Health" theme
+//or fetch localStorage data
+
+var jsonData = JSON.parse(localStorage.getItem('json-data'));
+console.log('jsonData', jsonData)
+if (jsonData && jsonData.items.length > 0) {
+    console.log('fetch localStorage');
+    for (i = 0; i < jsonData.items.length; i++) {
+        openData.items.push(jsonData.items[i]);
+        openData.theme.push(jsonData.theme[i]);
+        openData.title.push(jsonData.title[i]);
+        openData.description.push(jsonData.description[i]);
+        openData.identifier.push(jsonData.identifier[i]);
+        openData.landingPage.push(jsonData.landingPage[i]);
+        openData.dateModified.push(jsonData.dateModified[i]);
+    } makeJSON();
+
+} else {
+    fetchTimer();
     var url = "https://data.cityofnewyork.us/data.json?category=Health";
     $.ajax({
         url: url,
@@ -84,24 +102,25 @@ function getOpenData() {
     })
 }
 
-
-//make usable JSON string from OpenData
+console.timeEnd('timer')
+}
+//make usable JSON string and URL from OpenData
 function makeJSON() {
     var str1 = [];
+    localStorage.setItem('json-data', JSON.stringify(openData));
+    var jsonData = JSON.parse(localStorage.getItem('json-data'));
     for (i = 0; i < openData.identifier.length; i++) {
         str1.push(openData.identifier[i]);
         var res = str1[i].slice(40);
-        // var res = str1[i].slice(40) + ".json";
         markers.push(res);
         markers[res] = [];
         jsonID.push(res);
-        // var str2 = "https://data.cityofnewyork.us/resource/"
-        // jsonURL.push(str2.concat(res));
     }
     renderButtons();
 }
 
 function selectAPI(element) {
+    healthAPIs = [];
     var apiChoice = element;
     var url = "https://data.cityofnewyork.us/resource/" + apiChoice + ".json";
     $.ajax({
@@ -109,6 +128,10 @@ function selectAPI(element) {
         method: "GET",
         cache: true
     }).then(function (results) {
+        healthAPIs.push(JSON.stringify(results));
+            healthAPIsParsed.push(JSON.parse(healthAPIs));
+            console.log('health apis stringified', healthAPIs);
+            console.log('health APIs parsed', healthAPIsParsed);
         for (var i = 0; i < results.length; i++) {
             var lat = results[i].latitude;
             var lng = results[i].longitude;
@@ -116,6 +139,13 @@ function selectAPI(element) {
             placeMarker(latLng, apiChoice);
         }
     })
+}
+
+//function to suppress results without LatLng coordinates or JSON files
+function suppressResults(){
+    for (var i = 0; i < healthAPIs.length; i++){
+        console.log("latitude checker", healthAPIsParsed[i][i].latitude)
+    };
 }
 
 //create buttons on front-end
