@@ -101,12 +101,7 @@ function makeJSON() {
 
 function selectAPI(element) {
     console.log(element);
-    if (element) {
-        var apiChoice = element;
-    }
-    else {
-        var apiChoice = "";
-    }
+    var apiChoice = element;
     var url = "https://data.cityofnewyork.us/resource/" + apiChoice + ".json";
     $.ajax({
         url: url,
@@ -114,10 +109,10 @@ function selectAPI(element) {
         cache: true
     }).then(function (results) {
         for (var i = 0; i < results.length; i++) {
-                        var lat = results[i].latitude;
-                        var lng = results[i].longitude;
-                        var latLng = new google.maps.LatLng(lat, lng);
-                        placeMarker(latLng);
+            var lat = results[i].latitude;
+            var lng = results[i].longitude;
+            var latLng = new google.maps.LatLng(lat, lng);
+            placeMarker(latLng);
         }
     })
 }
@@ -141,8 +136,7 @@ function renderButtons() {
         button.text(openData.title[i]);
         $("#selectAPI").append(button, text, $("<br>"));
     }
-    selectAPI();
-
+    addCheckListener();
 }
 
 // function selectAPI() {
@@ -161,7 +155,7 @@ function renderButtons() {
 //     })
 // }
 
-//place marker on map
+// place marker on map
 function placeMarker(position) {
     var marker = new google.maps.Marker({
         position: position,
@@ -192,13 +186,15 @@ function removeMarker() {
 
 
 // event listener for checkboxes
-$(document).ready(function () {
+function addCheckListener() {
     $(".checks").on("click", function() {
         if ($(this).is(":checked")) {
+            console.log("checked")
             selectAPI($(this).attr("data-name"));
         }
         if (!$(this).is(":checked")) {
+            console.log("unchecked")
             removeMarker();
         }
     });
-});
+};
