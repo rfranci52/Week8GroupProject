@@ -20,7 +20,18 @@ h1{
     margin: 20px;
   }
 
+#selectAPI {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  max-height: 700px;
+  overflow: auto;
+}
 
+#selectAPI .api {
+  display: flex;
+  justify-content: space-between;
+}
   
 button{
     
@@ -36,7 +47,7 @@ button{
     width: 100%;
     background-color: rgba(0, 0, 0, 0.65);
     text-align: right;
-    float: right;
+    /* float: right; */
   }
 
   input:-webkit-autofill,

@@ -45,7 +45,7 @@ function initMap() {
         lng = map.getCenter().lng();
         console.log(`${lat} and ${lng}`)
     });
-
+ 
     // creates autocomplete
     autocomplete = new google.maps.places.Autocomplete(document.getElementById('input'));
     autocomplete.bindTo('bounds', map);
@@ -100,7 +100,7 @@ function makeJSON() {
 }
 
 function selectAPI() {
-    $("button").on("click", function () {
+    $("button input").on("click", function () {
         var apiChoice = $(this).attr("data-name");
         var url = "https://data.cityofnewyork.us/resource/" + apiChoice + ".json";
         $.ajax({
@@ -126,8 +126,13 @@ function renderButtons() {
     for (var i = 0; i < openData.title.length; i++) {
         var button = $("<button>");
         button.addClass("api");
-        button.attr("data-name", jsonID[i]);
         button.text(openData.title[i]);
+
+        var input = $("<input>");
+        input.attr('type', 'checkbox');
+        input.attr("class", "checks");
+        input.attr("data-name", jsonID[i]);
+        button.prepend(input);
         $("#selectAPI").append(button);
     }
     selectAPI();
